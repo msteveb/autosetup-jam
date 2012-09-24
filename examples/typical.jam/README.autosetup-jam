@@ -6,4 +6,11 @@ library builds are supported, as are out-of-tree ones. Installation (TODO)
 and automatic reconfiguration are not supported. Note that auto.def is only
 modified to generate Jam files instead of Makefiles.
 
-Run: autosetup --install && ./configure && jam
+Run:
+
+  autosetup --install
+  mkdir autosetup/jam
+  cp <autosetup-jam>/lib/* autosetup/jam
+  ./configure --init=jam
+  ./configure
+  jam
