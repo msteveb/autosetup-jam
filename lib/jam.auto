@@ -1,0 +1,47 @@
+# Copyright (c) 2012 Alexander Shpilkin
+# Copyright (c) 2012 WorkWare Systems http://www.workware.net.au/
+# All rights reserved
+
+# Auto-load module for 'jam' build system integration
+
+use init
+
+autosetup_add_init_type jam {The "jam" build system} {
+	autosetup_check_create auto.def \
+{# Initial auto.def created by 'autosetup --init=jam'
+
+use cc jam
+
+# Add any user options here
+options {
+}
+
+make-config-header config.h
+make-jam-stub
+make-jam-config Jamconfig
+}
+	autosetup_check_create auto.jam \
+{# Initial auto.jam created by 'autosetup --init=jam'
+
+AutoGen config.h ;
+HDRS += $(BUILD_TOP) ;
+}
+
+	autosetup_check_create Jamrules \
+{# Initial Jamrules created by 'autosetup --init=jam'
+
+# Add any rule definitions here
+
+# Find and include Jamconfig
+LOCATE on Jamconfig ?= $(TOP) ;
+NoCare    Jamconfig ;
+include   Jamconfig ;
+if ! $(JAMCONFIGURED)
+{
+    Exit "can't find Jamconfig: run 'configure' first" ;
+}
+}
+    if {![file exists Jamfile]} {
+        puts "Note: I don't see Jamfile. You will probably need to create one."
+    }
+}

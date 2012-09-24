@@ -3,19 +3,45 @@ Autosetup/jam
 
 This is autosetup/jam, a simple Jam-based build system as an autosetup plugin.
 
-To use it, copy the files in this directory to the autosetup root before
-installing autosetup into your project. Then, specify your build targets in
-a Jamfile and run `./configure`, `jam`. Out-of-tree builds can be performed
-by running the `configure` script inside the desired build directory.
+Installation
+------------
+
+After installing `autosetup`, copy `lib/*` to a (new) directory in
+your project `autosetup/jam/`
+
+Note: `autosetup` v0.6.5 or later is required
+
+Project Setup
+-------------
+
+From your project, run:
+
+  ./configure --init=jam
+
+This will create an initial `auto.def`, `auto.jam` and `Jamrules` file.
+
+Now edit `auto.def` as required and supply a top-level `Jamfile` specifying
+the build targets.
 
 If you are migrating from a make-based setup, do not forget to use jam in your
 auto.def and invoke `make-jam-stub` and `make-jam-config` instead of
 `make-template`.
 
+Building
+--------
+
 You must have FT-Jam <http://www.freetype.org/jam/> installed in order to use
 the build system. The classic Perforce Jam has bugs in its built-in rules that
 make it unsuitable for use with autosetup/jam, and lacks shared library
 support.
+
+To build, run:
+
+  ./configure <configure-options>
+  jam
+
+Out-of-tree builds can be performed
+by running the `configure` script inside the desired build directory.
 
 Configuration files
 -------------------
@@ -40,7 +66,7 @@ Configuration files
     buildable without autosetup (e.g. under Windows with MS Visual C++). If
     present, it will be sourced after all other autosetup-specific scripts.
 
-  * autosetup/\*.jam: Each autosetup module can have a corresponding Jam
+  * autosetup/jam/\*.jam: Each autosetup module can have a corresponding Jam
     support file that defines or modifies stock rules in order to use the
     configuration information. The modules used by auto.def by the time
     `make-jam-config` is executed will have their support files sourced
